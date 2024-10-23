@@ -1,0 +1,19 @@
+html, body {
+  overflow: hidden;
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
+  margin: 0;
+  border: solid 4px #54007f;
+}
+.input_video {
+  position: fixed;
+  left: 0;
+  top: 8px;
+  width: 210px;
+  height: 110px;
+  transform: scaleX(-1);
+}
+
+.tp-dfwv {
+  width: 350px !important;
+}
