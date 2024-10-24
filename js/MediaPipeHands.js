@@ -17,9 +17,13 @@ export class MediaPipeHands {
       async onFrame() {
         await hands.send({ image: videoElement });
       },
-      width: 1280,
-      height: 720,
+      width: this.isMobile() ? 720 : 1280,
+      height: this.isMobile() ? 1280 : 720,
     });
+  }
+
+  isMobile() {
+    return window.innerWidth < window.innerHeight;
   }
 
   start() {

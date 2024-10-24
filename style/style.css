@@ -5,13 +5,31 @@ html, body {
   margin: 0;
   border: solid 4px #54007f;
 }
-.input_video {
+#inputVideo {
   position: fixed;
   left: 0;
   top: 8px;
   width: 210px;
   height: 110px;
   transform: scaleX(-1);
+
+  @media (max-width: 1250px) {
+    width: 110px;
+    height: 210px;
+    left: 8px;
+  }
+}
+
+#webcamButton {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translateX(-50%) translateY(-50%);
+  background-color: rgba(0,0,0,0.8);
+  color: #fff;
+  font-size: 32px;
 }
 
 .tp-dfwv {

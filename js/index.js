@@ -6,24 +6,41 @@ import { ScenesManager } from "./ScenesManager.js";
 
 export class App {
   constructor() {
-    this.pane = new Pane();    
+    this.pane = new Pane();
 
-    const videoElement = document.getElementsByClassName("input_video")[0];
     ScenesManager.setup();
 
-    this.mediaPiepeHands = new MediaPipeHands(videoElement, (landmarks) =>
-      this.onMediaPipeHandsResults(landmarks)
-    );
-    this.mediaPiepeHands.start();
     this.build();
+
+    if (this.hasGetUserMedia()) {
+      const enableWebcamButton = document.getElementById("webcamButton");
+      enableWebcamButton.addEventListener("click", (e) => {
+        if (this.hasCamera) return;
+        e.preventDefault();
+        this.hasCamera = true;
+
+        const videoElement = document.getElementById("inputVideo");
+        this.mediaPiepeHands = new MediaPipeHands(videoElement, (landmarks) =>
+          this.onMediaPipeHandsResults(landmarks)
+        );
+        this.mediaPiepeHands.start();
+        enableWebcamButton.remove();
+      });
+    } else {
+      console.warn("getUserMedia() is not supported by your browser");
+    }
 
     ScenesManager.renderer.setAnimationLoop(() => this.animate());
   }
 
+  hasGetUserMedia() {
+    return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+  }
+
   onMediaPipeHandsResults(landmarks) {
     if (this.handControls) {
-      this.handControls.update(landmarks);  
-    }    
+      this.handControls.update(landmarks);
+    }
   }
 
   async build() {
@@ -75,7 +92,10 @@ export class App {
       depthTest: false,
       depthWrite: false,
     });
-    const cursor = new THREE.Mesh(new THREE.SphereGeometry(0.1, 32, 16), cursorMat);
+    const cursor = new THREE.Mesh(
+      new THREE.SphereGeometry(0.1, 32, 16),
+      cursorMat
+    );
     ScenesManager.scene.add(cursor);
 
     this.handControls = new HandControls(

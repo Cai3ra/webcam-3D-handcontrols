@@ -25,7 +25,8 @@ export class ScenesManager {
       0.01,
       100
     );
-    ScenesManager.camera.position.set(0, 0, 2);
+    const isMobile = window.innerWidth < window.innerHeight;
+    ScenesManager.camera.position.set(0, 0, isMobile ? 4 : 2);
 
     ScenesManager.clock = new Clock();
 
@@ -39,7 +40,7 @@ export class ScenesManager {
     const dirLight = new DirectionalLight(0xffffff, 1);
     dirLight.position.set(-30, 30, 30);
     ScenesManager.scene.add(dirLight);
-    
+
     const light = new SpotLight(0xffffff, 4.5);
     light.position.set(0, 10, 5);
     light.angle = Math.PI * 0.2;
@@ -55,8 +56,8 @@ export class ScenesManager {
     ScenesManager.renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(ScenesManager.renderer.domElement);
   }
-  
+
   static render() {
-     ScenesManager.renderer.render(ScenesManager.scene, ScenesManager.camera);
+    ScenesManager.renderer.render(ScenesManager.scene, ScenesManager.camera);
   }
 }
